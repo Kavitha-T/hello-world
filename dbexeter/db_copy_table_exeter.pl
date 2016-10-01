@@ -46,7 +46,7 @@ while ($tbrow = $sth->fetchrow_array())
        
 	  
 	   print "$tbrow\n";
-	 push @stash, [ $tbrow ];
+	 push (@stash, $tbrow);
  	 
 }
 
