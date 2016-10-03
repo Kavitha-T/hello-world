@@ -47,7 +47,7 @@ while ($tbrow = $sth->fetchrow_array())
 	  
 	   print "$tbrow\n";
 	 push (@stash, $tbrow);
- 	 
+ 	 #push each tablename in @stash
 }
 
 print "\n";
@@ -64,31 +64,31 @@ foreach $tbrow ( @stash )
 		 #copy only the table structure if copytype is 1
 		 if ($words[1] == 1)
 		 {
-		     $sth = $dbh->prepare("CREATE TABLE $dbnew.$tbname LIKE $dbexisting.$tbname");
-             $sth->execute() or die "SQL Error : $DBI::errstr \n";
+		         $sth = $dbh->prepare("CREATE TABLE $dbnew.$tbname LIKE $dbexisting.$tbname");
+                         $sth->execute() or die "SQL Error : $DBI::errstr \n";
 			 print "Table structure created for $tbname.\n";
-			  print "Press enter to continue : \n";
+			 print "Press enter to continue : \n";
 			 $input = <>;
 			 
 		 }
 		 
 		 #copy the table structure and data if copytype is 2
 		 if ($words[1] == 2)
-         {
+                    {
 
-             $sth = $dbh->prepare("CREATE TABLE IF NOT EXISTS $dbnew.$tbname LIKE $dbexisting.$tbname");
+                         $sth = $dbh->prepare("CREATE TABLE IF NOT EXISTS $dbnew.$tbname LIKE $dbexisting.$tbname");
 			 $sth->execute() or die "SQL Error : $DBI::errstr \n";
 			 
 			 $sth2 = $dbh->prepare("INSERT IGNORE INTO $dbnew.$tbname SELECT * FROM $dbexisting.$tbname");
-             $sth2->execute() or die "SQL Error : $DBI::errstr \n";
+                         $sth2->execute() or die "SQL Error : $DBI::errstr \n";
 			 
 			 print "Table data copied for $tbname.\n";
-             print "Press enter to continue : \n";
+                         print "Press enter to continue : \n";
 			 $input = <>;
-         } 
+                     } 
 		 
-     $n++;
-	}
- print "Finished \n ";
+                $n++;
+	 }
+print "Finished \n ";
 
 
